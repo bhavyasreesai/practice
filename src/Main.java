@@ -1,13 +1,13 @@
 package Practice;
 import java.util.*;
 
- class Problem5 {
+ class Problem6 {
 
-    static int linearSearch(String[] arr, String key) {
+    static int linearSearch(int[] arr, int target) {
         int comparisons = 0;
         for (int i = 0; i < arr.length; i++) {
             comparisons++;
-            if (arr[i].equals(key)) {
+            if (arr[i] == target) {
                 System.out.println("Linear Found at index: " + i);
                 System.out.println("Comparisons: " + comparisons);
                 return i;
@@ -17,49 +17,37 @@ import java.util.*;
         return -1;
     }
 
-    static int binarySearch(String[] arr, String key) {
-        int low = 0, high = arr.length - 1, comparisons = 0;
+    static void binarySearch(int[] arr, int target) {
+        int low = 0, high = arr.length - 1;
+        int floor = -1, ceil = -1, comparisons = 0;
 
         while (low <= high) {
             comparisons++;
             int mid = (low + high) / 2;
 
-            if (arr[mid].equals(key)) {
-                System.out.println("Binary Found at index: " + mid);
-                System.out.println("Comparisons: " + comparisons);
-                return mid;
-            } else if (arr[mid].compareTo(key) < 0) {
+            if (arr[mid] == target) {
+                floor = ceil = arr[mid];
+                break;
+            } else if (arr[mid] < target) {
+                floor = arr[mid];
                 low = mid + 1;
             } else {
+                ceil = arr[mid];
                 high = mid - 1;
             }
         }
 
-        System.out.println("Binary Not Found, Comparisons: " + comparisons);
-        return -1;
-    }
-
-    static int countOccurrences(String[] arr, String key) {
-        int count = 0;
-        for (String s : arr) {
-            if (s.equals(key))
-                count++;
-        }
-        return count;
+        System.out.println("Floor: " + floor);
+        System.out.println("Ceiling: " + ceil);
+        System.out.println("Comparisons: " + comparisons);
     }
 
     public static void main(String[] args) {
 
-        String[] logs = {"accA", "accB", "accB", "accC"};
+        int[] risks = {10, 25, 50, 100};
 
-        linearSearch(logs, "accB");
+        linearSearch(risks, 30);
 
-        Arrays.sort(logs);
-        System.out.println("Sorted: " + Arrays.toString(logs));
-
-        binarySearch(logs, "accB");
-
-        int count = countOccurrences(logs, "accB");
-        System.out.println("Count: " + count);
+        binarySearch(risks, 30);
     }
 }
